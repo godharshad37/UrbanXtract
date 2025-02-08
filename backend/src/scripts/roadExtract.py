@@ -22,7 +22,7 @@ def preprocess_image(image_path, img_size=(256, 256)):
     return np.expand_dims(image, axis=0)
 
 # Predict roads
-def predict_road(image_path, output_path="backend/public/output/road_mask.png"):
+def predict_road(image_path, output_path="backend/public/output/road_mask.jpg"):
     input_image = preprocess_image(image_path)
     prediction = model.predict(input_image)
     prediction = (prediction > 0.5).astype(np.uint8)

@@ -8,4 +8,9 @@ app.use(cors({
     credentials: true
 }));
 
+//importing routes
+import featureRouter from "./routes/extraction.route.js";
+
+app.use("/api/v1/feature", featureRouter);
+
 export default app;

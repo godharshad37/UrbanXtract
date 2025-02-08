@@ -34,9 +34,9 @@ water_mask = cv2.morphologyEx(water_mask, cv2.MORPH_CLOSE, kernel)  # Close smal
 #water_mask = cv2.morphologyEx(water_mask, cv2.MORPH_OPEN, kernel)   # Remove small noise
 
 # Save the water detection mask to the public/output folder
-output_path = 'backend/public/output/water_detection_mask.jpg'
+output_path = 'backend/public/Output/water_mask.jpg'
 cv2.imwrite(output_path, water_mask)
 
-print(f"Water detection mask saved to {output_path}")
+print(output_path)
 
 
