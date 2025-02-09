@@ -1,4 +1,6 @@
 import React from 'react'
+import './css/UploadFile.css'
+
 
 export const UploadFile = () => {
     const handleSubmitFile = (e) => {

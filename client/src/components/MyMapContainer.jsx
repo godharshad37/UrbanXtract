@@ -2,6 +2,8 @@ import React from 'react'
 import { MapContainer, TileLayer, FeatureGroup } from 'react-leaflet'
 import { EditControl } from "react-leaflet-draw"
 import "leaflet-draw/dist/leaflet.draw.css"
+import "./css/MapContainer.css";
+
 
 export const MyMapContainer = () => {
   const _onCreate = (e) => {
@@ -16,7 +18,7 @@ export const MyMapContainer = () => {
     console.log(e);
   }
 
-    return <MapContainer center={[28.7041, 77.1025]} zoom={13} style={{height: "300px", width: "80%"}}>
+    return ( <MapContainer center={[28.7041, 77.1025]} zoom={13} style={{height: "300px", width: "80%"}}>
 
       <FeatureGroup>
         <EditControl position='topright' onCreated={_onCreate} onEdited={_onEdit} onDeleted={_onDelete}
@@ -39,4 +41,5 @@ export const MyMapContainer = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
     </MapContainer>
+    );
 }
