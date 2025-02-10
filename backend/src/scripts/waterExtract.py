@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the image
-image = cv2.imread('backend/public/Input/water.jpg')
+image = cv2.imread('public/Input/water.jpg')
 
 # Convert the image from BGR to RGB (OpenCV loads images in BGR by default)
 image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -34,9 +34,7 @@ water_mask = cv2.morphologyEx(water_mask, cv2.MORPH_CLOSE, kernel)  # Close smal
 #water_mask = cv2.morphologyEx(water_mask, cv2.MORPH_OPEN, kernel)   # Remove small noise
 
 # Save the water detection mask to the public/output folder
-output_path = 'backend/public/Output/water_mask.jpg'
+output_path = 'public/Output/water_mask.jpg'
 cv2.imwrite(output_path, water_mask)
 
 print(output_path)
-
-

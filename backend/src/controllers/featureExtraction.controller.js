@@ -1,29 +1,23 @@
 import { AsyncHandler } from "../utils/AsyncHandler.js";
+import { ApiResponse } from "../utils/ApiResponse.js"
 import { spawnSync } from "child_process"
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import fs from "fs";
 
 const pathExits = (path) => {
-    if (fs.existsSync(path)) {
-        console.log("exits");
-    }
-    else {
-        console.log("not exits");
-    }
+    return fs.existsSync(path);
 }
 
 const waterSegment = AsyncHandler( async (req, res) => {
-    const result = spawnSync('python', ['backend/src/scripts/waterExtract.py'], { encoding: 'utf-8' });
-
-    console.log(result.stdout);
-    pathExits("backend/public/Output/water_mask.jpg");
+    const result = spawnSync("python", ["src/scripts/waterExtract.py"], { encoding: "utf-8" })
+    console.log(result);
+    res.status(200).json({msg : "done"});
 });
 
 const roadSegment = AsyncHandler( async (req, res) => {
-    const result = spawnSync('python', ['backend/src/scripts/roadExtract.py'], { encoding: 'utf-8' });
+    const result = spawnSync("python", ["src/scripts/roadExtract.py"], { encoding: "utf-8" })
     console.log(result);
+    res.status(200).json({msg : "done"});
 });
-
-//waterSegment();
-roadSegment();
 
 export { waterSegment, roadSegment };
