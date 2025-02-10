@@ -8,16 +8,16 @@ const pathExits = (path) => {
     return fs.existsSync(path);
 }
 
-const waterSegment = AsyncHandler( async (req, res) => {
+const waterSegment = AsyncHandler( async (req, res, next) => {
     const result = spawnSync("python", ["src/scripts/waterExtract.py"], { encoding: "utf-8" })
-    console.log(result);
-    res.status(200).json({msg : "done"});
+    const cloudResponse = await uploadOnCloudinary("public/Output/water_mask.jpg");
+    res.status(200).json({msg : "done", link: cloudResponse.url});
 });
 
 const roadSegment = AsyncHandler( async (req, res) => {
     const result = spawnSync("python", ["src/scripts/roadExtract.py"], { encoding: "utf-8" })
-    console.log(result);
-    res.status(200).json({msg : "done"});
+    const cloudResponse = await uploadOnCloudinary("public/Output/road_mask.jpg");
+    res.status(200).json({msg : "done", link: cloudResponse.url});
 });
 
 export { waterSegment, roadSegment };
