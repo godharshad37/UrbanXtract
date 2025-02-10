@@ -1,0 +1,31 @@
+/* Navbar container */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Logo section */
+  .navbar-logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #042235;
+  }
+  
+  /* Links section */
+  .navbar-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #221238;
+    font-size: 1rem;
+  }
+  
+  /* Hover effect for links */
+  .navbar-links a:hover {
+    color: #ecb9e6;
+  }
+  

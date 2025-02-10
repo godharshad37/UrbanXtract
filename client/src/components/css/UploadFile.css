@@ -1,0 +1,50 @@
+/* UploadFile.css */
+
+/* General styles for the form container */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Label styling */
+  label {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  /* Input field styling */
+  input[type="file"] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #555;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  /* Button styling */
+  button {
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  

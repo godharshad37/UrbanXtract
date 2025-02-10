@@ -2,13 +2,15 @@ import React from "react";
 import { UploadFile } from "../components/uploadFile";
 import { MyMapContainer } from "../components/MyMapContainer";
 import { Navbar } from "../components/Navbar";
+import "./Home.css"; // Import CSS file
 
 export const Home = () => {
   return (
-    <div>
+    <div className="home-container">
       <Navbar />
-      <UploadFile />
-      <MyMapContainer />
+      
+      <MyMapContainer className="map-container" />
+      <UploadFile className="upload-file-container" />
     </div>
   );
 };
