@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the image
-image = cv2.imread('public/Input/water.jpg')
+image = cv2.imread('public/Input/sat.jpg')
 
 # Convert the image from BGR to RGB (OpenCV loads images in BGR by default)
 image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
