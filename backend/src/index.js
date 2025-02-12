@@ -13,6 +13,10 @@ app.post("/upload", upload.single("sat"), async (req, res) => {
     //const response = await uploadOnCloudinary(req.file.path);
     res.status(200).json({data: "success"});
 })
+
+app.get("/check", (req, res) => {
+    res.status(200).json({msg : "done"});
+})
  
 app.listen(PORT, () => {
     console.log(`⚙️  Server is Running on http://localhost:${PORT} `);
