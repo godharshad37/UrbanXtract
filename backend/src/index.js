@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 3000;
 
 app.post("/upload", upload.single("sat"), async (req, res) => {
     console.log(req.file);
-    //const response = await uploadOnCloudinary(req.file.path);
-    res.status(200).json({data: "success"});
+    const response = await uploadOnCloudinary(req.file.path);
+    res.status(200).json({data: "success", link: response.url});
 })
 
 app.get("/check", (req, res) => {

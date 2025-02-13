@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 
 def analyze_grid(mask_path):
     # Load the mask
@@ -45,13 +46,14 @@ def analyze_grid(mask_path):
 def save_grid_chart(mask_path, output_path):
     # Analyze grid to get water coverage percentages
     grid_data = analyze_grid(mask_path)
-
+    print(grid_data)
     # Save the plot as a JPG file
     plt.savefig(output_path, format='jpg', dpi=300)
     print(f"📷 Graph saved as: {output_path}")
+    return grid_data
 
 # Example Usage
-mask_path = "public/output/water_grap.jpg"
+mask_path = sys.argv[1]
 output_path = "public/output/water_graph.jpg"  # Output image file
 
 save_grid_chart(mask_path, output_path)
