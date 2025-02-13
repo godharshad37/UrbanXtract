@@ -11,20 +11,23 @@ const pathExits = (path) => {
 const waterSegment = AsyncHandler( async (req, res, next) => {
     const result = spawnSync("python", ["src/scripts/waterExtract.py"], { encoding: "utf-8" })
     const cloudResponse = await uploadOnCloudinary("public/Output/water_mask.jpg");
-    const description = GridDesc("public/Output/water_mask.jpg");
-    res.status(200).json({msg : "done", link: cloudResponse.url, desc: description});
+    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/water_mask.jpg"], { encoding: "utf-8" })
+    const obj = description.stdout;
+    const jsonString = obj.replace(/'/g, '"');
+    // Parse into JSON object
+    const parsedObj = JSON.parse(jsonString);
+    res.status(200).json({msg : "done", link: cloudResponse.url, desc: parsedObj});
 });
 
 const roadSegment = AsyncHandler( async (req, res) => {
     const result = spawnSync("python", ["src/scripts/roadExtract.py"], { encoding: "utf-8" })
     const cloudResponse = await uploadOnCloudinary("public/Output/road_mask.jpg");
-    const description = GridDesc("public/Output/road_mask.jpg");
-    res.status(200).json({msg : "done", link: cloudResponse.url, desc: description});
+    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/road_mask.jpg"], { encoding: "utf-8" })
+    const obj = description.stdout;
+    const jsonString = obj.replace(/'/g, '"');
+    // Parse into JSON object
+    const parsedObj = JSON.parse(jsonString);
+    res.status(200).json({msg : "done", link: cloudResponse.url, desc: parsedObj});
 });
-
-const GridDesc = (path) => {
-    const res = spawnSync("python", ["backend/src/scripts/gridanalyzed.py", path], { encoding: "utf-8" })
-    return res.stdout;
-}
 
 export { waterSegment, roadSegment };

@@ -21,8 +21,11 @@ export const UploadFile = () => {
               body:formData
           });
           console.log(response);
+          
           const result = await response.json();
           console.log(result);
+          localStorage.setItem('link',result.link);
+
         } catch (error) {
           console.error('Error uploading file:', error);
         }
