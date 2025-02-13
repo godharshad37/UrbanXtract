@@ -3,6 +3,7 @@ import { UploadFile } from "../components/uploadFile";
 import { MyMapContainer } from "../components/MyMapContainer";
 import { Navbar } from "../components/Navbar";
 import "./Home.css"; // Import CSS file
+import {MaskContainer} from "../components/MaskContainer"
 
 export const Home = () => {
   return (
@@ -11,6 +12,7 @@ export const Home = () => {
       
       <MyMapContainer className="map-container" />
       <UploadFile className="upload-file-container" />
+      <MaskContainer></MaskContainer>
     </div>
   );
 };
