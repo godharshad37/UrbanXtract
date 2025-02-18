@@ -11,7 +11,7 @@ const pathExits = (path) => {
 const buildSegment = AsyncHandler( async(req, res, next) => {
     const result = spawnSync("python", ["src/scripts/buildExtract.py"], { encoding: "utf-8" })
     const cloudResponse = await uploadOnCloudinary("public/Output/build_mask.jpg");
-    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/build_mask.jpg"], { encoding: "utf-8" })
+    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/build_mask.jpg", "public/Output/build_graph.jpg"], { encoding: "utf-8" })
     const obj = description.stdout;
     const jsonString = obj.replace(/'/g, '"');
     const parsedObj = JSON.parse(jsonString);
@@ -21,7 +21,7 @@ const buildSegment = AsyncHandler( async(req, res, next) => {
 const waterSegment = AsyncHandler( async (req, res, next) => {
     const result = spawnSync("python", ["src/scripts/waterExtract.py"], { encoding: "utf-8" })
     const cloudResponse = await uploadOnCloudinary("public/Output/water_mask.jpg");
-    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/water_mask.jpg"], { encoding: "utf-8" })
+    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/water_mask.jpg", "public/Output/water_graph.jpg"], { encoding: "utf-8" })
     const obj = description.stdout;
     const jsonString = obj.replace(/'/g, '"');
     // Parse into JSON object
@@ -32,7 +32,7 @@ const waterSegment = AsyncHandler( async (req, res, next) => {
 const roadSegment = AsyncHandler( async (req, res) => {
     const result = spawnSync("python", ["src/scripts/roadExtract.py"], { encoding: "utf-8" })
     const cloudResponse = await uploadOnCloudinary("public/Output/road_mask.jpg");
-    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/road_mask.jpg"], { encoding: "utf-8" })
+    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/road_mask.jpg", "public/Output/road_graph.jpg"], { encoding: "utf-8" })
     const obj = description.stdout;
     const jsonString = obj.replace(/'/g, '"');
     // Parse into JSON object

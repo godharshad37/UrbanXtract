@@ -45,15 +45,39 @@ def analyze_grid(mask_path):
 
 def save_grid_chart(mask_path, output_path):
     # Analyze grid to get water coverage percentages
+    # Analyze grid to get water coverage percentages
     grid_data = analyze_grid(mask_path)
-    print(grid_data)
+    
+    # Create a heatmap representation
+    coverage_values = np.array(list(grid_data.values())).reshape(3, 3)
+
+    fig, ax = plt.subplots()
+    im = ax.imshow(coverage_values, cmap='Blues', vmin=0, vmax=100)
+
+    # Add percentage text in cells
+    for i in range(3):
+        for j in range(3):
+            text = ax.text(j, i, f"{coverage_values[i, j]:.1f}%", 
+                           ha="center", va="center", color="black")
+
+    # Set labels
+    ax.set_xticks(np.arange(3))
+    ax.set_yticks(np.arange(3))
+    ax.set_xticklabels(["Left", "Center", "Right"])
+    ax.set_yticklabels(["Top", "Middle", "Bottom"])
+
+    plt.colorbar(im, label="Water Coverage (%)")
+    plt.title("Water Coverage Heatmap")
+
     # Save the plot as a JPG file
     plt.savefig(output_path, format='jpg', dpi=300)
+    plt.close()  # Close figure to free memory
+
     print(f"📷 Graph saved as: {output_path}")
     return grid_data
 
 # Example Usage
 mask_path = sys.argv[1]
-output_path = "public/output/water_graph.jpg"  # Output image file
+output_path = sys.argv[2] 
 
 save_grid_chart(mask_path, output_path)
