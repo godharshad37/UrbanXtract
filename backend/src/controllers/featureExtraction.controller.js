@@ -8,6 +8,16 @@ const pathExits = (path) => {
     return fs.existsSync(path);
 }
 
+const buildSegment = AsyncHandler( async(req, res, next) => {
+    const result = spawnSync("python", ["src/scripts/buildExtract.py"], { encoding: "utf-8" })
+    const cloudResponse = await uploadOnCloudinary("public/Output/build_mask.jpg");
+    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/build_mask.jpg"], { encoding: "utf-8" })
+    const obj = description.stdout;
+    const jsonString = obj.replace(/'/g, '"');
+    const parsedObj = JSON.parse(jsonString);
+    res.status(200).json({msg : "done", link: cloudResponse.url, desc: parsedObj});
+});
+
 const waterSegment = AsyncHandler( async (req, res, next) => {
     const result = spawnSync("python", ["src/scripts/waterExtract.py"], { encoding: "utf-8" })
     const cloudResponse = await uploadOnCloudinary("public/Output/water_mask.jpg");
