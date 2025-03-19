@@ -40,4 +40,4 @@ const roadSegment = AsyncHandler( async (req, res) => {
     res.status(200).json({msg : "done", link: cloudResponse.url, desc: parsedObj});
 });
 
-export { waterSegment, roadSegment };
+export { waterSegment, roadSegment, buildSegment };

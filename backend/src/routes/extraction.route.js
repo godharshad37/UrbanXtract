@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { waterSegment, roadSegment } from "../controllers/featureExtraction.controller.js";
+import { waterSegment, roadSegment, buildSegment } from "../controllers/featureExtraction.controller.js";
 
 const router = Router();
 
