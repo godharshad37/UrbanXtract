@@ -1,0 +1,114 @@
+/* ---- Global Reset ---- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+h2 {
+  flex-direction: column;
+  padding-bottom: 3vh;
+  padding-top: 4vh;
+}
+
+/* ---- Glittery Animated Background ---- */
+.about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 5vh 5%;
+  text-align: center;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460, #533483);
+  background-size: 300% 300%;
+  animation: bgAnimation 6s infinite alternate;
+  position: relative;
+}
+
+/* ---- Background Animation ---- */
+@keyframes bgAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ---- Glowing Title ---- */
+.about-container h2 {
+  font-size: 3vw;
+  color: #fff;
+  margin-bottom: 3vh;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* ---- About Content ---- */
+.about-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* Ensures wrapping on small screens */
+  gap: 5vw;
+  max-width: 1300px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3vh 5%;
+  border-radius: 15px;
+  box-shadow: 0px 10px 20px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+/* ---- Text Section ---- */
+.about-text {
+  flex: 1;
+  color: white;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  text-align: left;
+  padding: 3vh 5%;
+  max-width: 100%;
+}
+
+/* ---- About Image ---- */
+.about-image img {
+  width: 40vw;
+  max-width: 500px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease-in-out;
+}
+
+.about-image img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+}
+
+/* ---- Responsive Design ---- */
+@media (max-width: 1024px) {
+  .about-container h2 {
+    font-size: 4vw;
+  }
+
+  .about-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-text {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .about-image img {
+    width: 50vw;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-container h2 {
+    font-size: 5vw;
+  }
+}

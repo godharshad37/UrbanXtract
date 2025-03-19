@@ -1,0 +1,177 @@
+/* Glossy, High-End Styling for Result Page */
+/* orignal_image changes*/ */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.result-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  color: white;
+  text-align: center;
+  background: linear-gradient(135deg, #000428, #004e92);
+  /* background-size: 300% 300%; */
+  background-size: cover;
+  animation: backgroundShift 10s ease infinite;
+}
+
+/* Background Animation */
+@keyframes backgroundShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Page Heading */
+.result-container h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  color: white;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 1.0);
+  animation: fadeIn 1.5s ease-in-out;
+}
+.result-container {
+  background: linear-gradient(135deg, #000428, #004e92) !important;
+}
+
+/* Download Report Button */
+.download-report-btn {
+  position: absolute;
+  top: 100px;
+  right: 20px;
+  background: linear-gradient(90deg, #5b0788, #dc18dc, #c00964);
+  color: #ffffff;
+  font-size: 1.0rem;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 15px rgba(0, 200, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  backdrop-filter: blur(5px);
+}
+
+.download-report-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 0px 15px rgba(0, 198, 255, 0.8);
+  background: linear-gradient(90deg, #0072ff, #00c6ff);
+}
+
+/* Taskbar Styling */
+.taskbar {
+  display: flex;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 50px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0px 4px 20px rgba(0, 255, 255, 0.3);
+}
+
+.taskbar button {
+  background: transparent;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.taskbar button:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.8);
+}
+
+/* Active Button Effect */
+.taskbar .active {
+  background: linear-gradient(90deg, #ff3d00, #ff7b00);
+  box-shadow: 0px 4px 15px rgba(255, 61, 0, 0.6);
+  color: white;
+}
+
+/* Content Section */
+.content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 30px;
+  width: 80%;
+  gap: 30px;
+}
+
+/* Image Box */
+.image-box {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 5px 25px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.image-box img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Description Box */
+.description-box {
+  width: 45%;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 5px 20px rgba(0, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+/* Description Heading */
+.description-box h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Description Text */
+.description-box p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #e0e0e0;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
