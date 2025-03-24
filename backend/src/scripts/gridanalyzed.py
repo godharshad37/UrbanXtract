@@ -40,14 +40,14 @@ def analyze_grid(mask_path):
             # Store in dictionary
             region_name = directions[i * 3 + j]
             grid_data[region_name] = coverage
-
+            
     return grid_data
 
 def save_grid_chart(mask_path, output_path):
     # Analyze grid to get water coverage percentages
     # Analyze grid to get water coverage percentages
     grid_data = analyze_grid(mask_path)
-    
+    print(grid_data)
     # Create a heatmap representation
     coverage_values = np.array(list(grid_data.values())).reshape(3, 3)
 
@@ -71,9 +71,9 @@ def save_grid_chart(mask_path, output_path):
 
     # Save the plot as a JPG file
     plt.savefig(output_path, format='jpg', dpi=300)
-    plt.close()  # Close figure to free memory
+    #plt.close()  # Close figure to free memory
 
-    print(f"📷 Graph saved as: {output_path}")
+    #print(f"📷 Graph saved as: {output_path}")
     return grid_data
 
 # Example Usage

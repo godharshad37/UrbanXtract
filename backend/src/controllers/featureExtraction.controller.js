@@ -35,6 +35,7 @@ const roadSegment = AsyncHandler( async (req, res) => {
     const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/road_mask.jpg", "public/Output/road_graph.jpg"], { encoding: "utf-8" })
     const obj = description.stdout;
     const jsonString = obj.replace(/'/g, '"');
+    console.log(obj);
     // Parse into JSON object
     const parsedObj = JSON.parse(jsonString);
     res.status(200).json({msg : "done", link: cloudResponse.url, desc: parsedObj});

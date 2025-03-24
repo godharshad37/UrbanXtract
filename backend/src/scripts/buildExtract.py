@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 # Load the trained model
-model = tf.keras.models.load_model("backend/src/model_ml/build.h5")  
+model = tf.keras.models.load_model("src/model_ml/build.h5")  
 
 # Function to make a prediction on an image
 def predict_image(image_path):
