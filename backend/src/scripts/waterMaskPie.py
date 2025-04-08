@@ -11,7 +11,7 @@ def anazlyeWater(Input_path, Output_path) :
     image_np = np.array(resized_image)
 
     # Define the water color (blue)
-    water_color = np.array([0, 0, 255])
+    water_color = np.array([173, 216, 230])
 
     # Create mask
     water_mask = np.all(image_np == water_color, axis=-1)
@@ -55,4 +55,5 @@ def anazlyeWater(Input_path, Output_path) :
     data["Estimated Population Supported (1 year)"] = population_supported
     return data
 
-anazlyeWater(Input_path, output_path)
+data = anazlyeWater(Input_path, output_path)
+print(data)
