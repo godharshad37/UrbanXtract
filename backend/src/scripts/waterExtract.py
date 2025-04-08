@@ -1,40 +1,98 @@
-import cv2
 import numpy as np
+import tensorflow as tf
+from tensorflow.keras import layers,Model
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv2DTranspose, Input, concatenate
+from tensorflow.keras.models import Model
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import matplotlib.pyplot as plt
+import cv2
 
-# Load the image
-image = cv2.imread('public/Input/sat.jpg')
+# 1. Define the U-Net architecture (copied from the notebook)
+def unet_model(input_size=(256, 256, 3)):
+    inputs = Input(input_size)
+    
+    c1 = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(inputs)
+    c1 = layers.BatchNormalization()(c1)
+    c1 = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(c1)
+    c1 = layers.BatchNormalization()(c1)
+    p1 = layers.MaxPooling2D((2, 2))(c1)
+    p1 = layers.Dropout(0.2)(p1)
 
-# Convert the image from BGR to RGB (OpenCV loads images in BGR by default)
-image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    c2 = layers.Conv2D(128, (3, 3), activation='relu', padding='same')(p1)
+    c2 = layers.BatchNormalization()(c2)
+    c2 = layers.Conv2D(128, (3, 3), activation='relu', padding='same')(c2)
+    c2 = layers.BatchNormalization()(c2)
+    p2 = layers.MaxPooling2D((2, 2))(c2)
+    p2 = layers.Dropout(0.2)(p2)
 
-# Separate the RGB channels
-r_channel = image_rgb[:, :, 0]
-g_channel = image_rgb[:, :, 1]
-b_channel = image_rgb[:, :, 2]
+    c3 = layers.Conv2D(256, (3, 3), activation='relu', padding='same')(p2)
+    c3 = layers.BatchNormalization()(c3)
+    c3 = layers.Conv2D(256, (3, 3), activation='relu', padding='same')(c3)
+    c3 = layers.BatchNormalization()(c3)
+    p3 = layers.MaxPooling2D((2, 2))(c3)
+    p3 = layers.Dropout(0.3)(p3)
 
-# Compute NDWI (Water Index)
-NDWI = (g_channel - b_channel) / (g_channel + b_channel + 1e-5)
+    c4 = layers.Conv2D(512, (3, 3), activation='relu', padding='same')(p3)
+    c4 = layers.BatchNormalization()(c4)
+    c4 = layers.Conv2D(512, (3, 3), activation='relu', padding='same')(c4)
+    c4 = layers.BatchNormalization()(c4)
+    p4 = layers.MaxPooling2D((2, 2))(c4)
+    p4 = layers.Dropout(0.3)(p4)
 
-# Compute NDVI (Vegetation Index)
-NDVI = (g_channel - r_channel) / (g_channel + r_channel + 1e-5)  # Add small value to avoid division by zero
+    c5 = layers.Conv2D(1024, (3, 3), activation='relu', padding='same')(p4)
+    c5 = layers.BatchNormalization()(c5)
+    c5 = layers.Conv2D(1024, (3, 3), activation='relu', padding='same')(c5)
+    c5 = layers.BatchNormalization()(c5)
 
+    # Decoder
+    u1 = layers.UpSampling2D((2, 2))(c5)
+    u1 = layers.concatenate([u1, c4])
+    c6 = layers.Conv2D(512, (3, 3), activation='relu', padding='same')(u1)
+    c6 = layers.BatchNormalization()(c6)
+    c6 = layers.Conv2D(512, (3, 3), activation='relu', padding='same')(c6)
+    c6 = layers.BatchNormalization()(c6)
 
-# Apply a threshold to detect water (using the blue channel)
-# Pixels with higher blue values compared to red and green are considered water
-water_mask = (b_channel > r_channel) & (b_channel > g_channel) & (g_channel > r_channel) & (NDWI > 0.05) & (NDVI > 0.3) & (g_channel < 60)
+    u2 = layers.UpSampling2D((2, 2))(c6)
+    u2 = layers.concatenate([u2, c3])
+    c7 = layers.Conv2D(256, (3, 3), activation='relu', padding='same')(u2)
+    c7 = layers.BatchNormalization()(c7)
+    c7 = layers.Conv2D(256, (3, 3), activation='relu', padding='same')(c7)
+    c7 = layers.BatchNormalization()(c7)
 
+    u3 = layers.UpSampling2D((2, 2))(c7)
+    u3 = layers.concatenate([u3, c2])
+    c8 = layers.Conv2D(128, (3, 3), activation='relu', padding='same')(u3)
+    c8 = layers.BatchNormalization()(c8)
+    c8 = layers.Conv2D(128, (3, 3), activation='relu', padding='same')(c8)
+    c8 = layers.BatchNormalization()(c8)
 
-# Convert the mask to uint8 format for visualization
-water_mask = water_mask.astype(np.uint8) * 255
+    u4 = layers.UpSampling2D((2, 2))(c8)
+    u4 = layers.concatenate([u4, c1])
+    c9 = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(u4)
+    c9 = layers.BatchNormalization()(c9)
+    c9 = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(c9)
+    c9 = layers.BatchNormalization()(c9)
 
-# Optionally, apply some morphological operations to refine the mask
-kernel = np.ones((5, 5), np.uint8)
-water_mask = cv2.morphologyEx(water_mask, cv2.MORPH_CLOSE, kernel)  # Close small holes
-#water_mask = cv2.morphologyEx(water_mask, cv2.MORPH_OPEN, kernel)   # Remove small noise
+    # Final output layer
+    outputs = layers.Conv2D(1, (1, 1), activation='sigmoid')(c9)
 
-# Save the water detection mask to the public/output folder
-output_path = 'public/Output/water_mask.jpg'
-cv2.imwrite(output_path, water_mask)
+    model = Model(inputs=inputs, outputs=outputs)
+    return model
 
-print(output_path)
+# 2. Build and load weights
+model = unet_model()
+model.load_weights('src/model_ml/cp.weights.h5')
+
+# Preprocess image
+def preprocess_image(image_path, img_size=(256, 256)):
+    image = cv2.imread(image_path)
+    image = cv2.resize(image, img_size)
+    image = image / 255.0
+    return np.expand_dims(image, axis=0)
+
+image_path = "public/input/sat.jpg"  
+image = preprocess_image(image_path)
+pred_mask = model.predict(image)[0, :, :, 0]
+ 
+output_path = "public/Output/water_mask.jpg"
+cv2.imwrite(output_path, (pred_mask * 255).astype(np.uint8))
