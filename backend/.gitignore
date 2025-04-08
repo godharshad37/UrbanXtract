@@ -1,3 +1,6 @@
+#model
+cp.weights.h5
+
 # Logs
 logs
 *.log
