@@ -1,9 +1,8 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers,Model
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv2DTranspose, Input, concatenate
+from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import matplotlib.pyplot as plt
 import cv2
 
@@ -91,8 +90,15 @@ def preprocess_image(image_path, img_size=(256, 256)):
     return np.expand_dims(image, axis=0)
 
 image_path = "public/input/sat.jpg"  
+output_path = "public/Output/water_mask.jpg"
 image = preprocess_image(image_path)
 pred_mask = model.predict(image)[0, :, :, 0]
+binary_mask = (pred_mask > 0.5).astype(np.uint8)
  
-output_path = "public/Output/water_mask.jpg"
-cv2.imwrite(output_path, (pred_mask * 255).astype(np.uint8))
+# Create an RGB image with light blue (173, 216, 230) and black (0, 0, 0)
+light_blue = [173, 216, 230]
+mask_rgb = np.zeros((binary_mask.shape[0], binary_mask.shape[1], 3), dtype=np.uint8)
+mask_rgb[binary_mask == 1] = light_blue  # water
+mask_rgb[binary_mask == 0] = [0, 0, 0]   # background
+
+cv2.imwrite(output_path, cv2.cvtColor(mask_rgb, cv2.COLOR_RGB2BGR))
