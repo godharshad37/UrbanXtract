@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 # Load the trained model
-model = tf.keras.models.load_model("backend/src/model_ml/build.h5")  
+model = tf.keras.models.load_model("src/model_ml/build.h5")  
 
 # Function to make a prediction on an image
 def predict_image(image_path):
@@ -30,10 +30,10 @@ def predict_image(image_path):
     mask_rgb[pred_mask == 1] = yellow
     mask_rgb[pred_mask == 0] = black
 
-    output_path = "backend/public/Output/build_mask.jpg"
+    output_path = "public/Output/build_mask.jpg"
     pred_img = Image.fromarray(mask_rgb)
     pred_img.save(output_path, format="JPEG")
     
 # Example usage
-image_path = "backend/public/Input/sat.jpg" 
+image_path = "public/Input/sat.jpg" 
 predict_image(image_path)
