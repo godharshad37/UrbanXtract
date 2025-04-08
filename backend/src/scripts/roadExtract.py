@@ -9,7 +9,7 @@ def custom_load_model(model_path):
     return keras.models.load_model(model_path, compile=False)
 
 # Load the model
-MODEL_PATH = "backend/src/model_ml/roads_extraction.h5"
+MODEL_PATH = "src/model_ml/roads_extraction.h5"
 model = custom_load_model(MODEL_PATH)
 
 
@@ -40,6 +40,6 @@ def predict_road(image_path, output_path):
     print(f"Road detection mask saved to {output_path}")
 
 # Run the model
-output_path="backend/public/output/road_mask.jpg"
-input_path="backend/public/input/sat.jpg"
+output_path="public/output/road_mask.jpg"
+input_path="public/input/sat.jpg"
 predict_road(input_path,output_path)
