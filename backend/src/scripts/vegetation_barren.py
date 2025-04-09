@@ -21,12 +21,12 @@ def detect_barren_land_from_rgb(image_path, ndvi_threshold=0.2):
     output = np.zeros((height, width, 3), dtype=np.uint8)
 
     # Define skin color in RGB (light tan)
-    skin_color = [0, 210, 0]  # (R, G, B)
+    green = [0, 210, 0]  # (R, G, B)
 
     # Apply color based on threshold
     barren_mask = pseudo_ndvi < ndvi_threshold
-    output[barren_mask] = skin_color  # Barren → skin color
-    output[~barren_mask] = [255, 210, 180]   # Others → black
+    output[barren_mask] = green  # Barren → skin color
+    output[~barren_mask] = [0, 0, 0]   # Others → skin
 
     # Save output image
     output_bgr = cv2.cvtColor(output, cv2.COLOR_RGB2BGR)

@@ -23,7 +23,7 @@ def predict_image(image_path):
     pred = model.predict(np_img)[0]  # Get the first (and only) output
     pred_mask = (pred > threshold).astype(np.uint8).squeeze()
 
-    # Create a yellow and black RGB mask
+    # Create a yellow and black RGB mask [255, 210, 180] skin
     yellow = [255, 255, 0]
     black = [0, 0, 0]
     mask_rgb = np.zeros((128, 128, 3), dtype=np.uint8)
@@ -32,6 +32,7 @@ def predict_image(image_path):
 
     output_path = "public/Output/build_mask.jpg"
     pred_img = Image.fromarray(mask_rgb)
+    pred_img = pred_img.resize((256, 256), Image.LANCZOS)
     pred_img.save(output_path, format="JPEG")
     
 # Example usage
