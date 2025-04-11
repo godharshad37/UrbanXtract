@@ -20,6 +20,32 @@ def anazlyeWater(Input_path, Output_path):
 
     water_pixels = np.sum(water_mask)
     non_water_pixels = water_mask.size - water_pixels
+    total_pixels = water_mask.size
+    water_ratio = water_pixels / total_pixels
+    percentage = water_ratio * 100
+
+    s1 = ""
+    s2 = ""
+    s3 = ""
+    s4 = ""
+    if water_ratio < 0.01:
+        s1 = f"Very minimal surface water detected ({percentage:.2f}%). "
+        s2 = "This suggests an arid region with little to no standing water. "
+        s3 = "Water conservation methods and rainwater harvesting should be prioritized."
+    elif water_ratio < 0.05:
+        s1 = f"Low water coverage found ({percentage:.2f}%). "
+        s2 = "Water bodies are likely small lakes or ponds. "
+        s3 = "Useful for local irrigation or livestock, but may not sustain a large population."
+    elif water_ratio < 0.2:
+        s1 = f"Moderate water availability ({percentage:.2f}%). "
+        s2 = "The area includes substantial water bodies such as reservoirs or rivers. "
+        s3 = "Supports small-scale agriculture, fisheries, and rural communities."
+    else:
+        s1 = f"High water body coverage ({percentage:.2f}%). "
+        s2 = "The region likely contains lakes, large rivers, or wetlands. "
+        s3 = "Suitable for irrigation, drinking water, biodiversity, and urban supply. "
+        s4 = "Conservation efforts should ensure sustainability of this critical resource."
+
 
     # Groundwater estimation
     PIXEL_AREA_M2 = 100
@@ -42,12 +68,16 @@ def anazlyeWater(Input_path, Output_path):
     plt.title(f'Water vs Land | Est. Population Supported: {population_supported}')
     plt.axis('equal')
     plt.savefig(Output_path, format='jpg')
-    plt.close()
 
-    return {
+    return { 
         "Water Pixels": water_pixels,
         "Estimated Ground Water Volume (L)": ground_water_volume_liters,
-        "Estimated Population Supported (1 year)": population_supported
+        "Estimated Population Supported (1 year)": population_supported,
+        "s1" : s1,
+        "s2" : s2, 
+        "s3" : s3,
+        "s4" : s4
     }
 
-anazlyeWater(Input_path, output_path)
+data = anazlyeWater(Input_path, output_path)
+print(data)

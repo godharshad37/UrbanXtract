@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import numpy as np
 
-def overlay_masks(mask_paths, output_path, target_colors=None, overlay_colors=None):
+def overlay_masks(mask_paths, output_path, target_colors=None, overlay_colors=None) :
     if len(mask_paths) != 4:
         raise ValueError("Exactly four mask image paths must be provided.")
     
@@ -38,24 +38,26 @@ def overlay_masks(mask_paths, output_path, target_colors=None, overlay_colors=No
     print(f"Overlay image saved at {output_path}")
 
 mask_paths = [
-    "backend/public/Output/veg_barren_mask.jpg",
     "backend/public/Output/build_mask.jpg",
+    "backend/public/Output/veg_barren_mask.jpg",
     "backend/public/Output/water_mask.jpg",
     "backend/public/Output/road_mask.jpg"
 ]
 
 # First color in each mask to keep
 target_colors = [
-    (0, 210, 0),       # veg_barren_mask
+    
     (255, 255, 0),     # build_mask
+    (0, 210, 0),       # veg_barren_mask
     (173, 216, 230),   # water_mask
     (128, 128, 128)    # road_mask
 ]
 
 # Overlay colors (can be same or different from above)
 overlay_colors = [
-    (0, 255, 0),       # bright green for vegetation
+    
     (255, 255, 0),     # yellow for buildings
+    (0, 255, 0),       # bright green for vegetation
     (0, 0, 255),       # blue for water
     (128, 128, 128)    # grey for roads
 ]

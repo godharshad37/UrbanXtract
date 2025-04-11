@@ -21,24 +21,31 @@ const buildSegment = AsyncHandler( async(req, res, next) => {
 const waterSegment = AsyncHandler( async (req, res, next) => {
     const result = spawnSync("python", ["src/scripts/waterExtract.py"], { encoding: "utf-8" })
     const cloudResponse = await uploadOnCloudinary("public/Output/water_mask.jpg");
-    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/water_mask.jpg", "public/Output/water_graph.jpg"], { encoding: "utf-8" })
+    res.status(200).json({msg : "Segment water image done", link: cloudResponse.url});
+});
+
+const waterAnalyze = AsyncHandler( async(req, res, next) => {
+    const description = spawnSync("python", ["src/scripts/waterMaskPie.py"], { encoding: "utf-8" })
+    const cloudResponse = await uploadOnCloudinary("public/Output/water_pie.jpg");
     const obj = description.stdout;
     const jsonString = obj.replace(/'/g, '"');
-    // Parse into JSON object
     const parsedObj = JSON.parse(jsonString);
-    res.status(200).json({msg : "done", link: cloudResponse.url, desc: parsedObj});
-});
+    res.status(200).json({msg : "done", link: cloudResponse.url, desc : parsedObj});
+})
 
 const roadSegment = AsyncHandler( async (req, res) => {
     const result = spawnSync("python", ["src/scripts/roadExtract.py"], { encoding: "utf-8" })
     const cloudResponse = await uploadOnCloudinary("public/Output/road_mask.jpg");
-    const description = spawnSync("python", ["src/scripts/gridanalyzed.py", "public/Output/road_mask.jpg", "public/Output/road_graph.jpg"], { encoding: "utf-8" })
-    const obj = description.stdout;
-    const jsonString = obj.replace(/'/g, '"');
-    console.log(obj);
-    // Parse into JSON object
-    const parsedObj = JSON.parse(jsonString);
-    res.status(200).json({msg : "done", link: cloudResponse.url, desc: parsedObj});
+    res.status(200).json({msg : "Segment road image done", link: cloudResponse.url});
 });
 
-export { waterSegment, roadSegment, buildSegment };
+const roadAnaylze = AsyncHandler( async (req, res) => {
+    const description = spawnSync("python", ["src/scripts/roadMaskPie.py"], { encoding: "utf-8" })
+    const cloudResponse = await uploadOnCloudinary("public/Output/road_pie.jpg");
+    const obj = description.stdout;
+    const jsonString = obj.replace(/'/g, '"');
+    const parsedObj = JSON.parse(jsonString);
+    res.status(200).json({msg : "done", link: cloudResponse.url, desc: parsedObj});
+})
+
+export { waterSegment, waterAnalyze, roadSegment, roadAnaylze, buildSegment };
