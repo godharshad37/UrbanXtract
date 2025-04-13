@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { waterSegment, waterAnalyze, roadSegment, roadAnaylze, buildSegment } from "../controllers/featureExtraction.controller.js";
+import { waterSegment, waterAnalyze, roadSegment, roadAnaylze, buildSegment, buildAnalyze } from "../controllers/featureExtraction.controller.js";
 
 const router = Router();
 
@@ -11,5 +11,6 @@ router.route("/build_extraction").get(buildSegment);
 //Anaylze paths
 router.route("/water_analyze").get(waterAnalyze);
 router.route("/road_analyze").get(roadAnaylze);
+router.route("/build_analyze").get(buildAnalyze);
 
 export default router;

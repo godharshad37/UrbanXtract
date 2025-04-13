@@ -16,6 +16,15 @@ const buildSegment = AsyncHandler( async(req, res, next) => {
     res.status(200).json({msg : "done", buildLink : build.url, vegLink : veg.url});
 });
 
+const buildAnalyze = AsyncHandler(async(req, res, next) => {
+    const description = spawnSync("python", ["src/scripts/landAnalyze.py"], { encoding: "utf-8" })
+    const cloudResponse = await uploadOnCloudinary("public/Output/landAnalyze_pie.jpg");
+    const obj = description.stdout;
+    const jsonString = obj.replace(/'/g, '"');
+    const parsedObj = JSON.parse(jsonString);
+    res.status(200).json({msg : "done", link: cloudResponse.url, desc : parsedObj});
+});
+
 const waterSegment = AsyncHandler( async (req, res, next) => {
     spawnSync("python", ["src/scripts/waterExtract.py"], { encoding: "utf-8" });
     const cloudResponse = await uploadOnCloudinary("public/Output/water_mask.jpg");
@@ -46,4 +55,4 @@ const roadAnaylze = AsyncHandler( async (req, res) => {
     res.status(200).json({msg : "done", link: cloudResponse.url, desc: parsedObj});
 })
 
-export { waterSegment, waterAnalyze, roadSegment, roadAnaylze, buildSegment };
+export { waterSegment, waterAnalyze, roadSegment, roadAnaylze, buildSegment, buildAnalyze };
