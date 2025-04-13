@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-def detect_barren_land_from_rgb(image_path, ndvi_threshold=0.2):
+def detect_barren_land_from_rgb(image_path, ndvi_threshold=0.3):
     # Load RGB image
     image = cv2.imread(image_path)
 
@@ -30,6 +30,7 @@ def detect_barren_land_from_rgb(image_path, ndvi_threshold=0.2):
 
     # Save output image
     output_bgr = cv2.cvtColor(output, cv2.COLOR_RGB2BGR)
+    output_bgr = cv2.resize(output_bgr, (256, 256))
     output_path = "public/Output/veg_barren_mask.jpg"
     cv2.imwrite(output_path, output_bgr)
     print(f"Barren land detected. Output saved as: {output_path}")
