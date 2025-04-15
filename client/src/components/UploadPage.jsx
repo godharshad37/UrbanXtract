@@ -60,7 +60,7 @@ const UploadPage = () => {
         </form>
 
         <button className="analyze-btn" onClick={() => navigate("/result")}>
-          Analyze
+          Proceed
         </button>
       </div>
     </div>

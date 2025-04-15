@@ -4,8 +4,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  overflow: hidden;
+  height: 100vh;
 }
 .result-container {
   width: 100%;
@@ -17,8 +16,7 @@ html, body {
   color: white;
   text-align: center;
   background: linear-gradient(135deg, #000428, #004e92);
-  /* background-size: 300% 300%; */
-  background-size: cover;
+  background-size: 300% 300%;
   animation: backgroundShift 10s ease infinite;
 }
 
@@ -136,16 +134,7 @@ html, body {
   border-radius: 10px;
 }
 
-/* Description Box */
-.description-box {
-  width: 45%;
-  text-align: left;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0px 5px 20px rgba(0, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-}
+
 
 /* Description Heading */
 .description-box h3 {
@@ -156,12 +145,31 @@ html, body {
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
-/* Description Text */
 .description-box p {
   font-size: 1.2rem;
   line-height: 1.5;
   color: #e0e0e0;
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Slide In Animation */
+@keyframes slideFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(20%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animated-slide-in {
+  animation: slideFromLeft 1.2s ease-out;
 }
 
 /* Fade-in Animation */
@@ -175,3 +183,130 @@ html, body {
     transform: translateY(0);
   }
 }
+
+/* Analyze Button */
+.analyze-btn-container {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: 2rem;
+  padding-right: 1200px;
+  margin-bottom: 20px;
+}
+.analyze-btn {
+  background-color: #2d89ef;
+  color: white;
+  border: 2px solid transparent;
+  padding: 16px 40px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.analyze-btn:hover {
+  background-color: #1e5bbf;
+  transform: scale(1.03);
+  box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.8);
+}
+
+.analyze-btn .active {
+  background: linear-gradient(90deg, #ff3d00, #ff7b00);
+  box-shadow: 0px 4px 15px rgba(255, 61, 0, 0.6);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.orignal-image{
+  display: flex;
+  justify-content: center;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 5px 25px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+/* Description Text */
+.description-box {
+  display: flex; /* Use Flexbox */
+  justify-content: space-between; /* Space out the content */
+  gap: 30px; /* Space between the two containers */
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(135deg, #000428, #004e92);
+  border-radius: 15px;
+  box-shadow: 0px 5px 20px rgba(0, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+
+.description-heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.description-heading-row h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+.description-content-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Description Container - Left */
+/* Description Container */
+.desc-container {
+  width: 50%; /* Adjust width of desc-container */
+  text-align: left;
+  color: #e0e0e0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Image Container */
+.image-container {
+  width: 50%; /* Adjust width of image-container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 5px 25px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
