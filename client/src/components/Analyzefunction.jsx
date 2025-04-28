@@ -12,6 +12,7 @@ function Analyzefunction({ name }) {
       const endpointMap = {
         road_extraction: "road_analyze",
         water_extraction: "water_analyze",
+        build_extraction: "build_analyze"
       };
 
       const endpoint = endpointMap[name];

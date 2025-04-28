@@ -18,6 +18,7 @@ const UploadPage = () => {
     e.preventDefault();
     if (file) {
       const formData = new FormData();
+      
       formData.append('sat', file);
       console.log(file);
       try {
