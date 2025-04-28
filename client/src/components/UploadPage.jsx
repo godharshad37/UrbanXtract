@@ -8,6 +8,7 @@ const UploadPage = () => {
   const [file, setFile] = useState(null);
   const {setLink}=useContext(LinkContext);
   //const [link, setLink] = useState('');
+  const [uploadMessage, setUploadMessage] = useState("");
   const navigate = useNavigate();
 
   const handleFileChange = (event) => {
@@ -32,9 +33,20 @@ const UploadPage = () => {
         console.log(result);
         setLink(result.link);
 
+        //show success messege
+        setUploadMessage("Image uploaded successfully!");
+
+        //clear messege after 3 sec
+        setTimeout(() => {
+          setUploadMessage("");
+        }, 3000);
+
       } catch (error) {
         console.error('Error uploading file:', error);
+        setUploadMessage("Error uploading Image. Please try again.");
       }
+    } else {
+      setUploadMessage("Please select a Image to upload.");
     }
   };
 
@@ -60,6 +72,11 @@ const UploadPage = () => {
           </button>
         </form>
 
+        {/*Success / Error Messege*/}
+        {uploadMessage && (
+          <div className="upload-message">{uploadMessage}</div>
+        )}
+
         <button className="analyze-btn" onClick={() => navigate("/result")}>
           Proceed
         </button>
@@ -67,4 +84,5 @@ const UploadPage = () => {
     </div>
   );
 };
+
 export default UploadPage;
