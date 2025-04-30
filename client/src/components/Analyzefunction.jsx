@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./css/Analyzefunction.css";
 
 function Analyzefunction({ name }) {
+  const [showDescription, setShowDescription] = useState(false); // State to control description visibility
   const [desc, setDesc] = useState([]); // State to store data.desc as an array
   const [link, setLink] = useState(null); // State to store data.link
 
   const handleAnalyzeClick = async () => {
+    setShowDescription(true); // Show the description when the button is clicked
     console.log("clicked")
     try {
       // Map name to the appropriate endpoint
@@ -53,27 +55,28 @@ function Analyzefunction({ name }) {
           Analyze
         </button>
       </div>
-
-      <div className="description-box">
-        <div className="desc-container">
-          <h3>Description :</h3>
-          {desc.map((item, index) => (
-            <div key={index} className="desc-item">
-              <strong>{item[0]}</strong> : {item[1]}
-            </div>
-          ))}
-        </div>
-
-        {link && (
-          <div className="image-container">
-            <img
-              src={link}
-              alt="Analysis Result"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
+      {showDescription && (
+        <div className="description-box">
+          <div className="desc-container">
+            <h3>Description :</h3>
+            {desc.map((item, index) => (
+              <div key={index} className="desc-item">
+                <strong>{item[0]}</strong> : {item[1]}
+              </div>
+            ))}
           </div>
-        )}
-      </div>
+
+          {link && (
+            <div className="image-container">
+              <img
+                src={link}
+                alt="Analysis Result"
+                style={{ maxWidth: "100%", height: "auto" }}
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
