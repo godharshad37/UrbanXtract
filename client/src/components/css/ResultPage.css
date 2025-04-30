@@ -105,4 +105,120 @@ html, body {
   color: white;
 }
 
+/* Image Ordinary / Analyzes image loading*/
+
+.content {
+  width: 50%;
+  padding: 20px;
+  height: auto;
+  overflow: visible;
+}
+
+/* Common card style for all images */
+.image-card {
+  background-color: #b8b8b8; /* Unified color */
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  height: auto;
+  overflow: visible;
+}
+
+.image-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+/* Wrapper for additional analysis images */
+.additional-images {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  object-fit: contain;
+}
+
+.additional-images h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #f0f0f0;
+}
+
+/* This is the main flex row for additional images */
+.image-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+/* orginal and analyzed image cards equal in size*/
+.orignal-image, .analyze-image {
+  flex: 1;
+  min-width: 0;
+  background-color: #b8b8b8;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+/* Heading above image */
+.orignal-image h4, .analyze-image h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #121212;
+}
+
+/* Make images same size, fit inside card */
+.orignal-image img, .analyze-image img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: #ebebeb;
+}
+
+/* Each two-image card */
+.two-image {
+  flex: 1;
+  width: calc(50% - 20px); /* Adjusted for spacing */
+  max-width: 48%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  
+}
+
+.two-image h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #121212;
+}
+
+.two-image img {
+  width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: #ebebeb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .image-row {
+    flex-direction: column;
+  }
+  
+  .two-image {
+    flex: 0 0 100%; /* Full width on small screens */
+  }
+}
 

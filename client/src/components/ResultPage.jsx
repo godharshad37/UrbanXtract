@@ -135,11 +135,13 @@ const ResultPage = () => {
 
       <div className="content">
         {selectedAnalysis === "road_extraction" && (
-          <div className="image row">
-            <div className="orignal-image">
+          <div className="image-row">
+            <div className="orignal-image image-card">
+              <h4>ORIGNAL IMAGE</h4>
               <img src={link} alt="Original Image Loading..." />
             </div>
-            <div className="Analyze-Image">
+            <div className="analyze-image image-card">
+              <h4>ANALYSIS RESULT</h4>
               {imageSrc ? (
                 <img src={imageSrc} alt="Analysis Result Image..." />
               ) : (
@@ -150,11 +152,13 @@ const ResultPage = () => {
         )}
 
         {selectedAnalysis === "water_extraction" && (
-          <div className="image row">
-            <div className="orignal-image">
+          <div className="image-row">
+            <div className="orignal-image image-card">
+              <h4>ORIGNAL IMAGE</h4>
               <img src={link} alt="Original Image Loading..." />
             </div>
-            <div className="Analyze-Image">
+            <div className="analyze-image image-card">
+              <h4>ANALYSIS RESULT</h4>
               {imageSrc ? (
                 <img src={imageSrc} alt="Analysis Result Image..." />
               ) : (
@@ -165,19 +169,22 @@ const ResultPage = () => {
         )}
 
         {/* Display additional images only when "land" is clicked */}
-        {selectedAnalysis === "build_extraction" &&additionalImages.length > 0 && (
+        {selectedAnalysis === "build_extraction" &&
+          additionalImages.length > 0 && (
             <div className="additional-images">
               <h3>Additional Analysis Results:</h3>
-              {additionalImages.map((img, index) => (
-                <div key={index} className="image-container">
-                  <h4>{img.analysis.replace("_", " ").toUpperCase()}</h4>
-                  <img
-                    src={img.link}
-                    alt={`${img.analysis} Result`}
-                    className="additional-image"
-                  />
-                </div>
-              ))}
+              <div className="image-wrapper">
+                {additionalImages.map((img, index) => (
+                  <div key={index} className="two-image image-card">
+                    <h4>{img.analysis.replace("_", " ").toUpperCase()}</h4>
+                    <img
+                      src={img.link}
+                      alt={`${img.analysis} Result`}
+                      className="additional-image"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
       </div>
