@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./css/ResultPage.css";
+import "./css/Analyzefunction.css";
 
 function Analyzefunction({ name }) {
   const [desc, setDesc] = useState([]); // State to store data.desc as an array
@@ -58,15 +58,14 @@ function Analyzefunction({ name }) {
         <div className="desc-container">
           <h3>Description :</h3>
           {desc.map((item, index) => (
-            <div key={index}>
-              {item[0]} : {item[1]}
+            <div key={index} className="desc-item">
+              <strong>{item[0]}</strong> : {item[1]}
             </div>
           ))}
         </div>
 
         {link && (
           <div className="image-container">
-            
             <img
               src={link}
               alt="Analysis Result"

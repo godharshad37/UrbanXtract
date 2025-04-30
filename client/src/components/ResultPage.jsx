@@ -8,7 +8,7 @@ const ResultPage = () => {
   const [selectedAnalysis, setSelectedAnalysis] = useState("");
   const [imageSrc, setImageSrc] = useState("");
   const [additionalImages, setAdditionalImages] = useState([]); // State to store images for road and water
-  const [loading, setLoading] = useState(false); // State to manage loading state
+  const [showDescription, setShowDescription] = useState(false); // State to control description visibility
   const cache = React.useRef({});
 
   useEffect(() => {
@@ -189,15 +189,10 @@ const ResultPage = () => {
           )}
       </div>
 
-      <Analyzefunction name={selectedAnalysis}></Analyzefunction>
 
-      {/*Loader Overlay*/}
-      {loading && (
-        <div className="loader-overlay">
-          <div className="spinner"></div>
-          <p>Analyzing... Please Wait!</p>
-        </div>
-      )}
+      <Analyzefunction name={selectedAnalysis}></Analyzefunction>
+      
+      
     </div>
   );
 };
