@@ -1,6 +1,7 @@
 .analyze-btn-container {
+  display: flex;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .analyze-btn {
@@ -27,7 +28,7 @@
   gap: 30px;
   flex-wrap: wrap;
   align-items: flex-start;
-
+    
   
 }
 
@@ -63,7 +64,7 @@
     min-width: 300px;
     max-width: 100%;
     padding: 10px;
-    background-color: #1d536a;
+    background-color: #004e92;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,3 +78,9 @@
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
+
+.full-page-container {
+  padding : 20px;
+  background-color: #004e92;
+}
+

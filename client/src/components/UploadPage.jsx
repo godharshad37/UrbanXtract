@@ -1,12 +1,18 @@
-import React, { useState,useContext } from "react";
-import { LinkContext } from '../context/context'
+import React, { useState, useContext } from "react";
+import { LinkContext } from "../context/context";
 import { useNavigate } from "react-router-dom";
 import "./css/UploadPage.css";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
 const UploadPage = () => {
   const [file, setFile] = useState(null);
-  const {setLink}=useContext(LinkContext);
+  const {
+    setLink,
+    setRoadLink,
+    setWaterLink,
+    setLandLink,
+    setShowAnalyze
+  } = useContext(LinkContext);
   //const [link, setLink] = useState('');
   const [uploadMessage, setUploadMessage] = useState("");
   const navigate = useNavigate();
@@ -19,20 +25,23 @@ const UploadPage = () => {
     e.preventDefault();
     if (file) {
       const formData = new FormData();
-      
-      formData.append('sat', file);
+
+      formData.append("sat", file);
       console.log(file);
       try {
-        const response = await fetch('http://localhost:3000/upload', {
-          method: 'POST',
-          body: formData
+        const response = await fetch("http://localhost:3000/upload", {
+          method: "POST",
+          body: formData,
         });
         console.log(response);
 
         const result = await response.json();
         console.log(result);
         setLink(result.link);
-
+        setRoadLink("");
+        setWaterLink("");
+        setLandLink("");
+        setShowAnalyze(false);
         //show success messege
         setUploadMessage("Image uploaded successfully!");
 
@@ -40,9 +49,8 @@ const UploadPage = () => {
         setTimeout(() => {
           setUploadMessage("");
         }, 3000);
-
       } catch (error) {
-        console.error('Error uploading file:', error);
+        console.error("Error uploading file:", error);
         setUploadMessage("Error uploading Image. Please try again.");
       }
     } else {
@@ -73,9 +81,7 @@ const UploadPage = () => {
         </form>
 
         {/*Success / Error Messege*/}
-        {uploadMessage && (
-          <div className="upload-message">{uploadMessage}</div>
-        )}
+        {uploadMessage && <div className="upload-message">{uploadMessage}</div>}
 
         <button className="analyze-btn" onClick={() => navigate("/result")}>
           Proceed
