@@ -11,7 +11,9 @@ const UploadPage = () => {
     setRoadLink,
     setWaterLink,
     setLandLink,
-    setShowAnalyze
+    setLandDesc,
+    setWaterDesc,
+    setRoadDesc
   } = useContext(LinkContext);
   //const [link, setLink] = useState('');
   const [uploadMessage, setUploadMessage] = useState("");
@@ -41,7 +43,10 @@ const UploadPage = () => {
         setRoadLink("");
         setWaterLink("");
         setLandLink("");
-        setShowAnalyze(false);
+        setLandDesc("");
+        setRoadDesc("");
+        setWaterDesc("");
+        setSelectedAnalysis("");
         //show success messege
         setUploadMessage("Image uploaded successfully!");
 

@@ -226,3 +226,7 @@ html, body {
   }
 }
 
+.desc-container {
+  width: 100%;
+  height: auto;
+}

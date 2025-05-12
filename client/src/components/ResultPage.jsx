@@ -14,54 +14,71 @@ const ResultPage = () => {
     setLandLink,
     selectedAnalysis,
     setSelectedAnalysis,
-    setShowAnalyze,
-    setShowDescription
   } = useContext(LinkContext);
   const [additionalImages, setAdditionalImages] = useState([]);
 
-  useEffect(() => {
-    if (selectedAnalysis) {
-      const fetchData = async (selectType) => {
-        try {
-          const response = await fetch(
-            `http://localhost:3000/api/v1/feature/${selectType}`
-          );
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await response.json();
-          if (selectedAnalysis == "road_extraction") {
-            setRoadLink(data.link);
-            setShowAnalyze(true);
-          } else if (selectedAnalysis == "water_extraction") {
-            setWaterLink(data.link);
-            setShowAnalyze(true);
-          } else {
-            console.log(data);
-            const fetchedImages = [];
-            if (waterLink) {
-              fetchedImages.push({
-                analysis: "water_extraction",
-                link: waterLink,
-              });
-            }
-            if (roadLink) {
-              fetchedImages.push({
-                analysis: "road_extraction",
-                link: roadLink,
-              });
-            }
-            setLandLink(data.buildLink);
-            setAdditionalImages(fetchedImages);
-            setShowAnalyze(true);
-          }
-        } catch (error) {
-          console.error("Error fetching result:", error);
-        }
-      };
-      fetchData(selectedAnalysis);
+  const getData = async (type) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/v1/feature/${type}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      //console.log(data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching result:", error);
     }
-  }, [selectedAnalysis]);
+  };
+
+  useEffect(() => {
+  const fetchData = async () => {
+    if (selectedAnalysis === "road_extraction") {
+      let data = await getData("road_extraction");
+      setRoadLink(data.link);
+    } 
+    else if (selectedAnalysis === "water_extraction") {
+      let data = await getData("water_extraction");
+      setWaterLink(data.link);
+    } 
+    else {
+      if (!waterLink) {
+        let data = await getData("water_extraction");
+        setWaterLink(data.link);
+      }
+      if (!roadLink) {
+        let data = await getData("road_extraction");
+        setRoadLink(data.link);
+      }
+
+      const fetchedImages = [];
+      if (waterLink) {
+        fetchedImages.push({
+          analysis: "water_extraction",
+          link: waterLink,
+        });
+      }
+      if (roadLink) {
+        fetchedImages.push({
+          analysis: "road_extraction",
+          link: roadLink,
+        });
+      }
+
+      if (!landLink) {
+        let data = await getData("build_extraction");
+        setLandLink(data.buildLink);
+      }
+
+      setAdditionalImages(fetchedImages);
+    }
+  };
+
+  fetchData();
+}, [selectedAnalysis]);
+
 
   const downloadReport = () => {
     // Implement download report functionality
@@ -85,26 +102,22 @@ const ResultPage = () => {
           className={selectedAnalysis === "road_extraction" ? "active" : ""}
           onClick={() => {
             setSelectedAnalysis("road_extraction");
-            setShowAnalyze(false);
-            setShowDescription(false);
           }}
         >
           Road Analysis
         </button>
         <button
           className={selectedAnalysis === "water_extraction" ? "active" : ""}
-          onClick={() => {setSelectedAnalysis("water_extraction");
-            setShowAnalyze(false);
-            setShowDescription(false);
+          onClick={() => {
+            setSelectedAnalysis("water_extraction");
           }}
         >
           Water Analysis
         </button>
         <button
           className={selectedAnalysis === "build_extraction" ? "active" : ""}
-          onClick={() => {setSelectedAnalysis("build_extraction");
-            setShowAnalyze(false);
-            setShowDescription(false);
+          onClick={() => {
+            setSelectedAnalysis("build_extraction");
           }}
         >
           Land Analysis
@@ -166,25 +179,34 @@ const ResultPage = () => {
               </div>
             </div>
             <div className="additional-images">
-              {setShowAnalyze && (<h3>Additional Analysis Results:</h3>)}
+              {waterLink && roadLink && <h3>Additional Analysis Results:</h3>}
               <div className="image-wrapper">
-                {additionalImages.map((img, index) => (
-                  <div key={index} className="two-image image-card">
-                    <h4>{img.analysis.replace("_", " ").toUpperCase()}</h4>
+                <div className="two-image image-card">
+                    <h4>Water Extraction</h4>
                     <img
-                      src={img.link}
-                      alt={`${img.analysis} Result`}
+                      src={waterLink}
+                      alt={`water_extraction Result`}
                       className="additional-image"
                     />
-                  </div>
-                ))}
+                </div>
+                <div className="two-image image-card">
+                    <h4>Road Extraction</h4>
+                    <img
+                      src={roadLink}
+                      alt={`road_extraction Result`}
+                      className="additional-image"
+                    />
+                </div>
               </div>
             </div>
           </div>
         )}
       </div>
 
-      <Analyzefunction className="desc-container" name={selectedAnalysis}></Analyzefunction>
+      <Analyzefunction
+        className="desc-container"
+        name={selectedAnalysis}
+      ></Analyzefunction>
     </div>
   );
 };

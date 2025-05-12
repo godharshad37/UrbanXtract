@@ -9,8 +9,6 @@ export const LinkProvider = ({ children }) => {
   const [waterLink, setWaterLink] = useState("");
   const [landLink, setLandLink] = useState("");
   const [selectedAnalysis, setSelectedAnalysis] = useState("");
-  const [showAnalyze, setShowAnalyze] = useState(false);
-  const [showDescription, setShowDescription] = useState(false);
   const [roadDesc, setRoadDesc] = useState("");
   const [waterDesc, setWaterDesc] = useState("");
   const [landDesc, setLandDesc] = useState("");
@@ -19,7 +17,7 @@ export const LinkProvider = ({ children }) => {
   const [landAnalyzeLink, setLandAnalyzeLink] = useState("");
 
   return (
-    <LinkContext.Provider value={{ link, setLink, roadLink, setRoadLink, waterLink, setWaterLink, landLink, setLandLink, selectedAnalysis, setSelectedAnalysis, showAnalyze, setShowAnalyze, showDescription, setShowDescription, roadDesc, setRoadDesc, waterDesc, setWaterDesc, landDesc, setLandDesc, roadAnalyzeLink, setRoadAnalyzeLink, waterAnalyzeLink, setWaterAnalyzeLink, landAnalyzeLink, setLandAnalyzeLink}}>
+    <LinkContext.Provider value={{ link, setLink, roadLink, setRoadLink, waterLink, setWaterLink, landLink, setLandLink, selectedAnalysis, setSelectedAnalysis, roadDesc, setRoadDesc, waterDesc, setWaterDesc, landDesc, setLandDesc, roadAnalyzeLink, setRoadAnalyzeLink, waterAnalyzeLink, setWaterAnalyzeLink, landAnalyzeLink, setLandAnalyzeLink}}>
       {children}
     </LinkContext.Provider>
   );

@@ -42,7 +42,7 @@
   line-height: 1.6;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   text-align: left;
-  background: linear-gradient(135deg, #000428, #004e92);
+  background-color: #004e92
 }
 
 .desc-item {

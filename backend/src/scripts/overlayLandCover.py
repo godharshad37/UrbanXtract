@@ -16,27 +16,28 @@ def overlay_masks(mask_paths, output_path, target_colors=None, overlay_colors=No
     base_size = base_image.size
     h, w = base_image.size[1], base_image.size[0]
     
-    # Start with black image
+    # Start with a tan background image
     final_np = np.full((h, w, 3), fill_value=(210, 180, 140), dtype=np.uint8)
 
-    for i, path in enumerate(mask_paths):
+    # Reverse the mask order to give highest priority to the first mask
+    for i, path in reversed(list(enumerate(mask_paths))):
         mask_img = Image.open(path).convert("RGB")
         if mask_img.size != base_size:
             mask_img = mask_img.resize(base_size)
 
         mask_np = np.array(mask_img)
         match = np.all(mask_np == target_colors[i], axis=-1)
-        
-        # Override pixels where match is True
-        
-        final_np[match] =  overlay_colors[i]
 
-    # Save the resulting image
+        # Only update pixels that are still background
+        background_mask = np.all(final_np == (210, 180, 140), axis=-1)
+        final_np[np.logical_and(match, background_mask)] = overlay_colors[i]
+
+    # Save the resulting overlay image
     final_image = Image.fromarray(final_np, mode="RGB")
     final_image.save(output_path)
     print(f"Overlay image saved at {output_path}")
 
-# Paths to masks
+# Example usage
 mask_paths = [
     "backend/public/Output/veg_barren_mask.jpg",
     "backend/public/Output/build_mask.jpg",
@@ -44,20 +45,20 @@ mask_paths = [
     "backend/public/Output/road_mask.jpg"
 ]
 
-# Target colors to match in masks
+# Target colors to match in each mask
 target_colors = [
-    (0, 210, 0),       # veg_barren_mask
-    (255, 255, 0),     # build_mask
-    (173, 216, 230),   # water_mask
-    (128, 128, 128)    # road_mask
+    (0, 210, 0),       # vegetation
+    (255, 255, 0),     # buildings
+    (173, 216, 230),   # water
+    (128, 128, 128)    # road
 ]
 
-# Overlay colors (used for final output)
+# Output overlay colors (same as target in this case)
 overlay_colors = [
-    (0, 210, 0),       # green for vegetation
-    (255, 255, 0),     # yellow for buildings
-    (173, 216, 230),   # blue for water
-    (128, 128, 128)    # grey for roads
+    (0, 210, 0),       # green
+    (255, 255, 0),     # yellow
+    (173, 216, 230),   # light blue
+    (128, 128, 128)    # gray
 ]
 
 output_path = "backend/public/Output/overlay.jpg"

@@ -3,7 +3,23 @@ import "./css/Analyzefunction.css";
 import { LinkContext } from "../context/context";
 
 function Analyzefunction({ name }) {
-  const {showAnalyze, showDescription, setShowDescription, roadDesc, setRoadDesc, roadAnalyzeLink, setRoadAnalyzeLink, waterDesc, setWaterDesc, waterAnalyzeLink, setWaterAnalyzeLink, landDesc, setLandDesc, landAnalyzeLink, setLandAnalyzeLink} = useContext(LinkContext);
+  const {
+    showAnalyze,
+    showDescription,
+    setShowDescription,
+    roadDesc,
+    setRoadDesc,
+    roadAnalyzeLink,
+    setRoadAnalyzeLink,
+    waterDesc,
+    setWaterDesc,
+    waterAnalyzeLink,
+    setWaterAnalyzeLink,
+    landDesc,
+    setLandDesc,
+    landAnalyzeLink,
+    setLandAnalyzeLink,
+  } = useContext(LinkContext);
 
   const handleAnalyzeClick = async () => {
     console.log("clicked");
@@ -41,7 +57,7 @@ function Analyzefunction({ name }) {
         setWaterDesc(dataArray);
         setWaterAnalyzeLink(data.link);
       }
-      if (endpoint == "water_analyze") {
+      if (endpoint == "build_analyze") {
         setLandDesc(dataArray);
         setLandAnalyzeLink(data.link);
       }
@@ -53,98 +69,107 @@ function Analyzefunction({ name }) {
 
   return (
     <div className="desc-container">
-      {name == "road_extraction" && 
-        (<div className="full-page-container">
-        {showAnalyze && (<div className="analyze-btn-container">
-          <button className="analyze-btn" onClick={handleAnalyzeClick}>
-            Analyze
-          </button>
-        </div>)}
-        {showDescription && (
-          <div className="description-box">
-            <div className="desc-container">
-              <h3>Description :</h3>
-              {roadDesc.map((item, index) => (
-                <div key={index} className="desc-item">
-                  <strong>{item[0]}</strong> : {item[1]}
-                </div>
-              ))}
+      {name == "road_extraction" && (
+        <div className="full-page-container">
+          {!roadDesc && (
+            <div className="analyze-btn-container">
+              <button className="analyze-btn" onClick={handleAnalyzeClick}>
+                Analyze
+              </button>
             </div>
-
-            {roadAnalyzeLink && (
-              <div className="image-container">
-                <img
-                  src={roadAnalyzeLink}
-                  alt="Analysis Result"
-                  style={{ maxWidth: "100%", height: "500px" }}
-                />
+          )}
+          {roadDesc && (
+            <div className="description-box">
+              <div className="desc-container">
+                <h3>Description :</h3>
+                {roadDesc.map((item, index) => (
+                  <div key={index} className="desc-item">
+                    <strong>{item[0]}</strong> : {item[1]}
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-        )}
-      </div>)}
 
-      {name == "water_extraction" && 
-        (<div className="full-page-container">
-        {showAnalyze && (<div className="analyze-btn-container">
-          <button className="analyze-btn" onClick={handleAnalyzeClick}>
-            Analyze
-          </button>
-        </div>)}
-        {showDescription && (
-          <div className="description-box">
-            <div className="desc-container">
-              <h3>Description :</h3>
-              {waterDesc.map((item, index) => (
-                <div key={index} className="desc-item">
-                  <strong>{item[0]}</strong> : {item[1]}
+              {roadAnalyzeLink && (
+                <div className="image-container">
+                  <img
+                    src={roadAnalyzeLink}
+                    alt="Analysis Result"
+                    style={{ maxWidth: "100%", height: "500px" }}
+                  />
                 </div>
-              ))}
+              )}
             </div>
+          )}
+        </div>
+      )}
 
-            {waterAnalyzeLink && (
-              <div className="image-container">
-                <img
-                  src={waterAnalyzeLink}
-                  alt="Analysis Result"
-                  style={{ maxWidth: "100%", height: "500px" }}
-                />
+      {name == "water_extraction" && (
+        <div className="full-page-container">
+          {!waterDesc && (
+          <div className="analyze-btn-container">
+            <button className="analyze-btn" onClick={handleAnalyzeClick}>
+              Analyze
+            </button>
+          </div> )}
+
+          {waterDesc && (
+            <div className="description-box">
+              <div className="desc-container">
+                <h3>Description :</h3>
+                {waterDesc.map((item, index) => (
+                  <div key={index} className="desc-item">
+                    <strong>{item[0]}</strong> : {item[1]}
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-        )}
-      </div>)}
 
-      {name == "build_extraction" && 
-        (<div className="full-page-container">
-        {showAnalyze && (<div className="analyze-btn-container">
-          <button className="analyze-btn" onClick={handleAnalyzeClick}>
-            Analyze
-          </button>
-        </div>)}
-        {showDescription && (
-          <div className="description-box">
-            <div className="desc-container">
-              <h3>Description :</h3>
-              {landDesc.map((item, index) => (
-                <div key={index} className="desc-item">
-                  <strong>{item[0]}</strong> : {item[1]}
+              {waterAnalyzeLink && (
+                <div className="image-container">
+                  <img
+                    src={waterAnalyzeLink}
+                    alt="Analysis Result"
+                    style={{ maxWidth: "100%", height: "500px" }}
+                  />
                 </div>
-              ))}
+              )}
             </div>
+          )}
+        </div>
+      )}
 
-            {landAnalyzeLink && (
-              <div className="image-container">
-                <img
-                  src={landAnalyzeLink}
-                  alt="Analysis Result"
-                  style={{ maxWidth: "100%", height: "500px" }}
-                />
+      {name == "build_extraction" && (
+        <div className="full-page-container">
+          {!landDesc && (
+          <div className="analyze-btn-container">
+            <button className="analyze-btn" onClick={handleAnalyzeClick}>
+              Analyze
+            </button>
+          </div> )}
+
+          {landDesc && (
+            <div className="description-box">
+              <div className="desc-container">
+                <h3>Description :</h3>
+                {landDesc.map((item, index) => (
+                  <div key={index} className="desc-item">
+                    <strong>{item[0]}</strong> : {item[1]}
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-        )}
-      </div>)}
+
+              {landAnalyzeLink && (
+                <div className="image-container">
+                  <img
+                    src={landAnalyzeLink}
+                    alt="Analysis Result"
+                    style={{ maxWidth: "100%", height: "500px" }}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
