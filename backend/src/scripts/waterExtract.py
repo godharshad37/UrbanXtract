@@ -91,11 +91,11 @@ def unet_model(input_size=(128, 128, 3)):
     outputs = layers.Conv2D(1, (1, 1), activation='sigmoid')(c9)
 
     model = Model(inputs, outputs)
-    return model
+    return model 
 
 # 2. Build and load weights
 model = unet_model()
-model.load_weights('src/model_ml/cp.weights.h5')
+model.load_weights('backend/src/model_ml/cp.weights.h5')
 
 def preprocess_image(image_path, target_size=(128, 128)):
     img = load_img(image_path, target_size=target_size)
@@ -104,18 +104,19 @@ def preprocess_image(image_path, target_size=(128, 128)):
 
 
 # 4. Predict and save mask as light blue & black
-image_path = "public/input/sat.jpg"  
+image_path = "backend/public/input/sat.jpg"  
 image = preprocess_image(image_path)
 pred_mask = model.predict(image)[0, :, :, 0]
 binary_mask = (pred_mask > 0.5).astype(np.uint8)
 
+
 # Create an RGB image with light blue (173, 216, 230) and black (0, 0, 0)
 light_blue = [173, 216, 230]
+black = [0, 0, 0]
 mask_rgb = np.zeros((binary_mask.shape[0], binary_mask.shape[1], 3), dtype=np.uint8)
 mask_rgb[binary_mask == 1] = light_blue  # water
-mask_rgb[binary_mask == 0] = [0, 0, 0]   # background
+mask_rgb[binary_mask == 0] = black   # background
 
 # Save the output
-output_path = "public/Output/water_mask.jpg"
-cv2.resize(mask_rgb, (256, 256))
-cv2.imwrite(output_path,mask_rgb)
+output_path = "backend/public/Output/water_mask.jpg"
+cv2.imwrite(output_path, cv2.cvtColor(mask_rgb, cv2.COLOR_RGB2BGR))

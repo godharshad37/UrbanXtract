@@ -19,6 +19,17 @@ def count_class_pixels(mask, target_color):
     """Count pixels matching a specific color."""
     return int(np.sum(np.all(mask == target_color, axis=-1)))
 
+def count_not_pixels(Input_path):
+    image = Image.open(Input_path).convert("RGB")
+    resized_image = image.resize((256, 256))
+    image_np = np.array(resized_image)
+    water_color = np.array([173, 216, 230])
+    tolerance = 10  
+    color_diff = np.abs(image_np - water_color)
+    water_mask = np.all(color_diff <= tolerance, axis=-1)
+    water_pixels = np.sum(water_mask)
+    return water_pixels
+
 def compare_land_masks(urban_path, road_path, water_path, veg_path, output_chart_path):
     # Load masks
     urban_mask = load_rgb_mask(urban_path)
@@ -32,16 +43,14 @@ def compare_land_masks(urban_path, road_path, water_path, veg_path, output_chart
 
     # Count class pixels
     urban_pixels = count_class_pixels(urban_mask, COLORS['urban_land'])
+    total_pixels = min(total_pixels, count_class_pixels(urban_mask, [0,0,0]))
     road_pixels = count_class_pixels(road_mask, COLORS['road'])
-    water_pixels = count_class_pixels(water_mask, COLORS['water'])
+    total_pixels = min(total_pixels, count_class_pixels(road_mask, [0,0,0]))
+    water_pixels = count_not_pixels(water_path)
+    total_pixels = min(total_pixels, count_class_pixels(water_mask, [0,0,0]))
     veg_pixels = count_class_pixels(veg_mask, COLORS['vegetation'])
-
-    # Calculate other pixels (everything else)
-    combined_mask = np.zeros(shape, dtype=bool)
-    for mask in [urban_mask, road_mask, water_mask, veg_mask]:
-        for color in COLORS.values():
-            combined_mask |= np.all(mask == color, axis=-1)
-    other_pixels = total_pixels - np.sum(combined_mask)
+    total_pixels = min(total_pixels, count_class_pixels(veg_mask, [0,0,0]))
+    other_pixels = total_pixels
 
     # Flat result dictionary
     comparison = {
@@ -80,28 +89,12 @@ def compare_land_masks(urban_path, road_path, water_path, veg_path, output_chart
     sizes = [urban_pixels, road_pixels, water_pixels, veg_pixels, other_pixels]
     colors = ['yellow', 'gray', 'lightblue', 'green', 'lightgray']
 
-    plt.figure(figsize=(8, 6))
-    wedges, texts, autotexts = plt.pie(
-        sizes,
-        labels=labels,
-        colors=colors,
-        startangle=90,
-        autopct='%1.1f%%',
-        wedgeprops={'edgecolor': 'black'},
-        textprops={'fontsize': 10},
-        pctdistance=0.85,     # Push percentages outside the center
-        labeldistance=1.1     # Push labels slightly outward
-    )
-
-    # Improve visibility
-    for autotext in autotexts:
-        autotext.set_color('black')
-        autotext.set_fontsize(9)
-
-    plt.title('Land Use Distribution', fontsize=14)
-    plt.axis('equal')
-    # Save chart
-    plt.savefig(output_chart_path)
+    plt.figure(figsize=(10, 6))
+    plt.barh(labels, sizes, color=colors)
+    plt.xlabel('Pixel Count')
+    plt.title('Land Use Distribution (Pixel Counts)')
+    plt.tight_layout()
+    plt.savefig(output_chart_path.replace('.jpg', '_bar.jpg'))
 
     return comparison
 

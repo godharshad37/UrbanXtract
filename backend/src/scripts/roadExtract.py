@@ -36,6 +36,7 @@ def predict_road(image_path, output_path):
     mask_rgb[mask == 0] = black
 
     # Save RGB mask
+    cv2.resize(mask_rgb, (256,256))
     cv2.imwrite(output_path, cv2.cvtColor(mask_rgb, cv2.COLOR_RGB2BGR))
     print(f"Road detection mask saved to {output_path}")
 

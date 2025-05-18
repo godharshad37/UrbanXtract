@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 Input_path = "public/Output/water_mask.jpg"
 output_path = "public/Output/water_pie.jpg"
 
-def anazlyeWater(Input_path, Output_path):
+def analyzeWater(Input_path, Output_path):
     image = Image.open(Input_path).convert("RGB")
     resized_image = image.resize((256, 256))
     image_np = np.array(resized_image)
@@ -79,5 +79,5 @@ def anazlyeWater(Input_path, Output_path):
         "s4" : s4
     }
 
-data = anazlyeWater(Input_path, output_path)
+data = analyzeWater(Input_path, output_path)
 print(data)
