@@ -13,7 +13,8 @@ const UploadPage = () => {
     setLandLink,
     setLandDesc,
     setWaterDesc,
-    setRoadDesc
+    setRoadDesc,
+    setSelectedAnalysis
   } = useContext(LinkContext);
   //const [link, setLink] = useState('');
   const [uploadMessage, setUploadMessage] = useState("");

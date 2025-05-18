@@ -3,12 +3,28 @@ import tensorflow as tf
 from tensorflow.keras import layers, Model
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv2DTranspose, Input, concatenate
 from tensorflow.keras.models import Model
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import cv2
 
-# 1. Define the U-Net architecture
-def unet_model(input_size=(256, 256, 3)):
-    inputs = Input(input_size)
-    
+# Dice loss
+def dice_loss(y_true, y_pred):
+    y_true_f = K.flatten(y_true)
+    y_pred_f = K.flatten(y_pred)
+    intersection = K.sum(y_true_f * y_pred_f)
+    return 1 - (2. * intersection + 1) / (K.sum(y_true_f) + K.sum(y_pred_f) + 1)
+
+# Dice coefficient metric
+def dice_coef(y_true, y_pred):
+    y_true_f = K.flatten(y_true)
+    y_pred_f = K.flatten(y_pred)
+    intersection = K.sum(y_true_f * y_pred_f)
+    return (2. * intersection + 1) / (K.sum(y_true_f) + K.sum(y_pred_f) + 1)
+
+# Optimized U-Net
+def unet_model(input_size=(128, 128, 3)):
+    inputs = layers.Input(input_size)
+
+    # Encoder
     c1 = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(inputs)
     c1 = layers.BatchNormalization()(c1)
     c1 = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(c1)
@@ -42,48 +58,50 @@ def unet_model(input_size=(256, 256, 3)):
     c5 = layers.Conv2D(1024, (3, 3), activation='relu', padding='same')(c5)
     c5 = layers.BatchNormalization()(c5)
 
-    u1 = layers.UpSampling2D((2, 2))(c5)
-    u1 = concatenate([u1, c4])
+    # Decoder with Conv2DTranspose
+    u1 = layers.Conv2DTranspose(512, (2, 2), strides=(2, 2), padding='same')(c5)
+    u1 = layers.concatenate([u1, c4])
     c6 = layers.Conv2D(512, (3, 3), activation='relu', padding='same')(u1)
     c6 = layers.BatchNormalization()(c6)
     c6 = layers.Conv2D(512, (3, 3), activation='relu', padding='same')(c6)
     c6 = layers.BatchNormalization()(c6)
 
-    u2 = layers.UpSampling2D((2, 2))(c6)
-    u2 = concatenate([u2, c3])
+    u2 = layers.Conv2DTranspose(256, (2, 2), strides=(2, 2), padding='same')(c6)
+    u2 = layers.concatenate([u2, c3])
     c7 = layers.Conv2D(256, (3, 3), activation='relu', padding='same')(u2)
     c7 = layers.BatchNormalization()(c7)
     c7 = layers.Conv2D(256, (3, 3), activation='relu', padding='same')(c7)
     c7 = layers.BatchNormalization()(c7)
 
-    u3 = layers.UpSampling2D((2, 2))(c7)
-    u3 = concatenate([u3, c2])
+    u3 = layers.Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(c7)
+    u3 = layers.concatenate([u3, c2])
     c8 = layers.Conv2D(128, (3, 3), activation='relu', padding='same')(u3)
     c8 = layers.BatchNormalization()(c8)
     c8 = layers.Conv2D(128, (3, 3), activation='relu', padding='same')(c8)
     c8 = layers.BatchNormalization()(c8)
 
-    u4 = layers.UpSampling2D((2, 2))(c8)
-    u4 = concatenate([u4, c1])
+    u4 = layers.Conv2DTranspose(64, (2, 2), strides=(2, 2), padding='same')(c8)
+    u4 = layers.concatenate([u4, c1])
     c9 = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(u4)
     c9 = layers.BatchNormalization()(c9)
     c9 = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(c9)
     c9 = layers.BatchNormalization()(c9)
 
+    # Output layer
     outputs = layers.Conv2D(1, (1, 1), activation='sigmoid')(c9)
 
-    return Model(inputs=inputs, outputs=outputs)
+    model = Model(inputs, outputs)
+    return model
 
 # 2. Build and load weights
 model = unet_model()
 model.load_weights('src/model_ml/cp.weights.h5')
 
-# 3. Preprocess image
-def preprocess_image(image_path, img_size=(256, 256)):
-    image = cv2.imread(image_path)
-    image = cv2.resize(image, img_size)
-    image = image / 255.0
-    return np.expand_dims(image, axis=0)
+def preprocess_image(image_path, target_size=(128, 128)):
+    img = load_img(image_path, target_size=target_size)
+    img = img_to_array(img) / 255.0  # Normalize
+    return np.expand_dims(img, axis=0)
+
 
 # 4. Predict and save mask as light blue & black
 image_path = "public/input/sat.jpg"  
@@ -99,4 +117,5 @@ mask_rgb[binary_mask == 0] = [0, 0, 0]   # background
 
 # Save the output
 output_path = "public/Output/water_mask.jpg"
-cv2.imwrite(output_path, cv2.cvtColor(mask_rgb, cv2.COLOR_RGB2BGR))
+cv2.resize(mask_rgb, (256, 256))
+cv2.imwrite(output_path,mask_rgb)

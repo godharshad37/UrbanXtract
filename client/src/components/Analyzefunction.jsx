@@ -4,9 +4,6 @@ import { LinkContext } from "../context/context";
 
 function Analyzefunction({ name }) {
   const {
-    showAnalyze,
-    showDescription,
-    setShowDescription,
     roadDesc,
     setRoadDesc,
     roadAnalyzeLink,
@@ -61,7 +58,6 @@ function Analyzefunction({ name }) {
         setLandDesc(dataArray);
         setLandAnalyzeLink(data.link);
       }
-      setShowDescription(true);
     } catch (error) {
       console.error("Error fetching analysis data:", error);
     }

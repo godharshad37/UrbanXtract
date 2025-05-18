@@ -8,7 +8,7 @@ COLORS = {
     'urban_land': (255, 255, 0),     # Yellow
     'road':       (128, 128, 128),   # Gray
     'water':      (173, 216, 230),   # Light Blue
-    'vegetation': (0, 210, 0)        # Green
+    'vegetation': (0, 255, 0)        # Green
 }
 
 def load_rgb_mask(path):

@@ -1,40 +1,34 @@
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
-def detect_barren_land_from_rgb(image_path, ndvi_threshold=0.3):
-    # Load RGB image
-    image = cv2.imread(image_path)
+def detect_green_areas(image_path, threshold=20):
+    # Load image in BGR and convert to RGB
+    image_bgr = cv2.imread(image_path)
+    image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
 
-    # Convert BGR to RGB
-    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    # Extract RGB channels
+    R = image_rgb[:, :, 0].astype(float)
+    G = image_rgb[:, :, 1].astype(float)
+    B = image_rgb[:, :, 2].astype(float)
 
-    # Extract Red and Blue channels
-    red = image_rgb[:, :, 0].astype(float)
-    blue = image_rgb[:, :, 2].astype(float)
+    # Compute Excess Green Index (ExG)
+    exg = 2 * G - R - B
 
-    # Calculate pseudo-NDVI (approximation)
-    pseudo_ndvi = (red - blue) / (red + blue + 1e-6)
+    # Threshold to create green mask
+    green_mask = exg > threshold
 
-    # Create output image
-    height, width = pseudo_ndvi.shape
-    output = np.zeros((height, width, 3), dtype=np.uint8)
+    # Create an output mask image
+    output = np.zeros_like(image_rgb)
+    output[green_mask] = [0, 255, 0]  # Green for vegetation
 
-    # Define skin color in RGB (light tan)
-    green = [0, 210, 0]  # (R, G, B)
-
-    # Apply color based on threshold
-    barren_mask = pseudo_ndvi < ndvi_threshold
-    output[barren_mask] = green  # Barren → skin color
-    output[~barren_mask] = [0, 0, 0]   # Others → skin
-
-    # Save output image
-    output_bgr = cv2.cvtColor(output, cv2.COLOR_RGB2BGR)
-    output_bgr = cv2.resize(output_bgr, (256, 256))
+    # Resize for uniform output if needed
+    output_resized = cv2.resize(output, (256, 256))
     output_path = "public/Output/veg_barren_mask.jpg"
-    cv2.imwrite(output_path, output_bgr)
+    cv2.imwrite(output_path, output_resized)
     print(f"Barren land detected. Output saved as: {output_path}")
 
-# Example usage:
+
+# Example usage
 INPUT_PATH = "public/Input/sat.jpg"
-detect_barren_land_from_rgb(INPUT_PATH)
+detect_green_areas(INPUT_PATH)
