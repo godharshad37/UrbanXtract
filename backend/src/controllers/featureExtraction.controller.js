@@ -18,7 +18,7 @@ const buildSegment = AsyncHandler( async(req, res, next) => {
 
 const buildAnalyze = AsyncHandler(async(req, res, next) => {
     const description = spawnSync("python", ["src/scripts/landAnalyze.py"], { encoding: "utf-8" })
-    const cloudResponse = await uploadOnCloudinary("public/Output/landAnalyze_pie.jpg");
+    const cloudResponse = await uploadOnCloudinary("public/Output/landAnalyze_pie_bar.jpg");
     const obj = description.stdout;
     const jsonString = obj.replace(/'/g, '"');
     const parsedObj = JSON.parse(jsonString);

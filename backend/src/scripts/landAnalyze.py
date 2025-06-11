@@ -93,7 +93,7 @@ def compare_land_masks(urban_path, road_path, water_path, veg_path, output_chart
     plt.barh(labels, sizes, color=colors)
     plt.xlabel('Pixel Count')
     plt.title('Land Use Distribution (Pixel Counts)')
-    plt.tight_layout()
+    plt.tight_layout() 
     plt.savefig(output_chart_path.replace('.jpg', '_bar.jpg'))
 
     return comparison
