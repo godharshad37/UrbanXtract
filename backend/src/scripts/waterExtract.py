@@ -95,7 +95,7 @@ def unet_model(input_size=(128, 128, 3)):
 
 # 2. Build and load weights
 model = unet_model()
-model.load_weights('backend/src/model_ml/cp.weights.h5')
+model.load_weights('src/model_ml/cp.weights.h5')
 
 def preprocess_image(image_path, target_size=(128, 128)):
     img = load_img(image_path, target_size=target_size)
@@ -104,7 +104,7 @@ def preprocess_image(image_path, target_size=(128, 128)):
 
 
 # 4. Predict and save mask as light blue & black
-image_path = "backend/public/input/sat.jpg"  
+image_path = "public/input/sat.jpg"  
 image = preprocess_image(image_path)
 pred_mask = model.predict(image)[0, :, :, 0]
 binary_mask = (pred_mask > 0.5).astype(np.uint8)
@@ -118,5 +118,5 @@ mask_rgb[binary_mask == 1] = light_blue  # water
 mask_rgb[binary_mask == 0] = black   # background
 
 # Save the output
-output_path = "backend/public/Output/water_mask.jpg"
+output_path = "public/Output/water_mask.jpg"
 cv2.imwrite(output_path, cv2.cvtColor(mask_rgb, cv2.COLOR_RGB2BGR))

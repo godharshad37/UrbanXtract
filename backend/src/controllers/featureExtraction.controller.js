@@ -12,8 +12,8 @@ const buildSegment = AsyncHandler( async(req, res, next) => {
     spawnSync("python", ["src/scripts/buildExtract.py"], { encoding: "utf-8" });
     spawnSync("python", ["src/scripts/vegetation_barren.py"], { encoding: "utf-8" });
     const build = await uploadOnCloudinary("public/Output/build_mask.jpg");
-    const veg = await uploadOnCloudinary("public/Output/veg_barren_mask.jpg");
-    res.status(200).json({msg : "done", buildLink : build.url, vegLink : veg.url});
+    //const veg = await uploadOnCloudinary("public/Output/veg_barren_mask.jpg");
+    res.status(200).json({msg : "done", buildLink : build.url});
 });
 
 const buildAnalyze = AsyncHandler(async(req, res, next) => {
